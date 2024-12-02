@@ -31,6 +31,28 @@ defmodule Day02Test do
     assert Day02.calcSafeReports("./inputs/day02.txt") == 359
   end
 
+  test "calcs possible lists out of a line" do
+    line = [7, 6, 4, 2, 1]
+
+    expected_result = [
+      [6, 4, 2, 1],
+      [7, 4, 2, 1],
+      [7, 6, 2, 1],
+      [7, 6, 4, 1],
+      [7, 6, 4, 2]
+    ]
+
+    assert Day02.linePossibilitiesWithoutStep(line) == expected_result
+  end
+
+  test "reads example file and outputs safe reports with dampener" do
+    assert Day02.calcSafeReportsWithDampener("./inputs/day02_example.txt") == 4
+  end
+
+  test "reads input file and outputs safe reports with dampener" do
+    assert Day02.calcSafeReportsWithDampener("./inputs/day02.txt") == 418
+  end
+
   def numListToString(numList) do
     "[" <> (numList |> Enum.map(&Integer.to_string/1) |> Enum.join(", ")) <> "]"
   end

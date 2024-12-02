@@ -28,7 +28,34 @@ defmodule Day02 do
     safe_distance && safe_direction
   end
 
+  @doc """
+  With the "Problem Dampener", a line is safe if
+  - it is safe by isLineSafe() rules
+  - it would be safe if, by removing any one level, isLineSafe would consider it safe.
+  """
+  def isLineSafeWithDampener(line) when is_list(line) do
+    if isLineSafe(line) do
+      true
+    else
+      Enum.any?(line |> linePossibilitiesWithoutStep() |> Enum.map(&isLineSafe/1))
+    end
+  end
+
+  def linePossibilitiesWithoutStep(line) when is_list(line) do
+    for i <- 0..(length(line) - 1), into: [] do
+      List.delete_at(line, i)
+    end
+  end
+
+  def calcReports(filename, lineFun) when is_function(lineFun) do
+    filename |> readFileLevels() |> Enum.map(lineFun) |> Enum.count(fn isSafe -> isSafe end)
+  end
+
   def calcSafeReports(filename) do
-    filename |> readFileLevels() |> Enum.map(&isLineSafe/1) |> Enum.count(fn isSafe -> isSafe end)
+    filename |> calcReports(&isLineSafe/1)
+  end
+
+  def calcSafeReportsWithDampener(filename) do
+    filename |> calcReports(&isLineSafeWithDampener/1)
   end
 end
