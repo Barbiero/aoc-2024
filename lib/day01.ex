@@ -17,11 +17,22 @@ defmodule Day01 do
   def readInputFile(filename) do
     File.stream!(filename)
     |> Enum.map(&readLineNumbers/1)
-    |> Enum.reduce({[], []}, fn {first, second}, {list01, list02} ->
-      {[first | list01], [second | list02]}
+    |> Enum.reduce([[], []], fn {first, second}, [list01, list02] ->
+      [[first | list01], [second | list02]]
     end)
-    |> Tuple.to_list()
     |> Enum.map(&Enum.reverse/1)
     |> List.to_tuple()
+  end
+
+  def calcListSimilarities(list01, list02) when is_list(list01) and is_list(list02) do
+    freqs = list02 |> Enum.frequencies()
+
+    calcSimilarity = fn item ->
+      Map.get(freqs, item, 0) * item
+    end
+
+    list01
+    |> Enum.map(calcSimilarity)
+    |> Enum.sum()
   end
 end
