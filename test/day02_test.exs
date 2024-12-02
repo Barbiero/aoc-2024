@@ -3,7 +3,7 @@ defmodule Day02Test do
   doctest Day02
 
   test "reads line levels into a list" do
-    assert Day02.readLineLevels("7 6 4 2 1") == [7, 6, 4, 2, 1]
+    assert Day02.read_line_levels("7 6 4 2 1") == [7, 6, 4, 2, 1]
   end
 
   test "can determine if a line is safe or not" do
@@ -18,17 +18,17 @@ defmodule Day02Test do
 
     test_cases
     |> Enum.each(fn {line, expected} ->
-      assert Day02.isLineSafe(line) == expected,
-             "#{line |> numListToString()} should be #{if expected, do: "safe", else: "unsafe"}"
+      assert Day02.is_line_safe(line) == expected,
+             "#{line |> num_list_to_string()} should be #{if expected, do: "safe", else: "unsafe"}"
     end)
   end
 
   test "reads example file and outputs safe reports" do
-    assert Day02.calcSafeReports("./inputs/day02_example.txt") == 2
+    assert Day02.calc_safe_reports("./inputs/day02_example.txt") == 2
   end
 
   test "reads input file and outputs safe reports" do
-    assert Day02.calcSafeReports("./inputs/day02.txt") == 359
+    assert Day02.calc_safe_reports("./inputs/day02.txt") == 359
   end
 
   test "calcs possible lists out of a line" do
@@ -42,18 +42,18 @@ defmodule Day02Test do
       [7, 6, 4, 2]
     ]
 
-    assert Day02.linePossibilitiesWithoutStep(line) == expected_result
+    assert Day02.line_possibilities_without_step(line) == expected_result
   end
 
   test "reads example file and outputs safe reports with dampener" do
-    assert Day02.calcSafeReportsWithDampener("./inputs/day02_example.txt") == 4
+    assert Day02.calc_safe_reports_with_dampener("./inputs/day02_example.txt") == 4
   end
 
   test "reads input file and outputs safe reports with dampener" do
-    assert Day02.calcSafeReportsWithDampener("./inputs/day02.txt") == 418
+    assert Day02.calc_safe_reports_with_dampener("./inputs/day02.txt") == 418
   end
 
-  def numListToString(numList) do
-    "[" <> (numList |> Enum.map(&Integer.to_string/1) |> Enum.join(", ")) <> "]"
+  def num_list_to_string(num_list) when is_list(num_list) do
+    "[" <> (num_list |> Enum.map_join(", ", &Integer.to_string/1)) <> "]"
   end
 end
